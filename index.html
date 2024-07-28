@@ -1,100 +1,99 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Martini Glass Narrative Visualization</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .annotation {
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .button-container {
+            margin: 10px;
+        }
+        button {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Martini Glass Narrative Visualization</h1>
+    <div id="controls">
+        <label for="country-select">Country:</label>
+        <select id="country-select"></select>
+        <label for="year-select">Year:</label>
+        <select id="year-select"></select>
+    </div>
+    <div id="visualization"></div>
+    <div class="button-container">
+        <button onclick="scene = 1; updateVisualization();">Scene 1</button>
+        <button onclick="scene = 2; updateVisualization();">Scene 2</button>
+        <button onclick="scene = 3; updateVisualization();">Scene 3</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Global Carbon Emissions from XML</title>
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-  <script src="https://unpkg.com/d3-svg-annotation@2.5.1"></script>
-  <style>
-    .line {
-      fill: none;
-      stroke: steelblue;
-      stroke-width: 2px;
-    }
-    .annotation-group .annotation {
-      fill: white;
-      stroke: black;
-    }
-    .annotation-group .annotation .note {
-      font-size: 12px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Martini Glass Narrative Visualization</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/topojson-client@3"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .annotation {
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .button-container {
+            margin: 10px;
+        }
+        button {
+            margin: 5px;
+        }
+        #dropdown-container {
+            margin: 10px;
+        }
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            width: auto;
+            height: auto;
+            padding: 5px;
+            font: 12px sans-serif;
+            background: lightsteelblue;
+            border: 1px solid #333;
+            border-radius: 8px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+    </style>
 </head>
 <body>
-  <svg width="960" height="500"></svg>
-  <script>
-    const svg = d3.select("svg"),
-          margin = {top: 20, right: 20, bottom: 30, left: 50},
-          width = +svg.attr("width") - margin.left - margin.right,
-          height = +svg.attr("height") - margin.top - margin.bottom;
-
-    const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
-
-    const parseTime = d3.timeParse("%Y");
-
-    const x = d3.scaleTime().range([0, width]);
-    const y = d3.scaleLinear().range([height, 0]);
-
-    const line = d3.line()
-        .x(d => x(d.year))
-        .y(d => y(d.value));
-
-    // Load XML data
-    d3.xml("API_EN.ATM.CO2E.PC_DS2_en_xml_v2_1649238.xml").then(function(xml) {
-      // Parse XML data
-      const records = xml.querySelectorAll("record");
-      const allData = Array.from(records).map(record => {
-        const year = record.querySelector("field[name='Year']").textContent;
-        const value = parseFloat(record.querySelector("field[name='Value']").textContent) || 0;
-
-        return {
-          year: parseTime(year),
-          value: value
-        };
-      }).filter(d => !isNaN(d.value));
-
-      if (allData.length > 0) {
-        x.domain(d3.extent(allData, d => d.year));
-        y.domain([0, d3.max(allData, d => d.value)]);
-
-        g.append("g")
-            .attr("transform", `translate(0,${height})`)
-            .call(d3.axisBottom(x));
-
-        g.append("g")
-            .call(d3.axisLeft(y));
-
-        g.append("path")
-            .datum(allData)
-            .attr("class", "line")
-            .attr("d", line);
-
-        const annotations = [
-          {
-            note: {
-              label: "Significant Event",
-              title: "Event 1"
-            },
-            x: x(parseTime("1962")),
-            y: y(d3.max(allData, d => d.value)),
-            dy: -30,
-            dx: 30
-          }
-        ];
-
-        const makeAnnotations = d3.annotation()
-          .type(d3.annotationLabel)
-          .annotations(annotations);
-
-        g.append("g")
-          .attr("class", "annotation-group")
-          .call(makeAnnotations);
-      } else {
-        console.error("No valid data to display.");
-      }
-    }).catch(function(error) {
-      console.error("Error loading or parsing XML data:", error);
-    });
-  </script>
+    <h1>Life Expectency</h1>
+    <div id="dropdown-container">
+        <label for="country-select">Country:</label>
+        <select id="country-select"></select>
+        <label for="year-select">Year:</label>
+        <select id="year-select"></select>
+    </div>
+    <div id="visualization"></div>
+    <div class="button-container">
+        <button id="prev-scene">Previous Scene</button>
+        <button id="next-scene">Next Scene</button>
+    </div>
+    <div id="tooltip" class="tooltip"></div>
+    <script src="script.js"></script>
 </body>
 </html>
