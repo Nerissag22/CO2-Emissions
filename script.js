@@ -184,7 +184,7 @@ function showScene2() {
     // Add annotations
     const annotations = [
         {
-            note: { label: "Trend of Life Expectancy" },
+            note: { label: `Trend of Life Expectancy for ${parameters.country}` },
             x: width / 2,
             y: height / 2,
             dy: -70,
@@ -254,35 +254,21 @@ function showScene3() {
     const annotations = [
         {
             note: {
-                label: `Adult Mortality: ${barData[0].value}`,
-                title: 'Adult Mortality'
+                title: "Mortality and Deaths",
+                label: "This bar chart shows the Adult Mortality and Infant Deaths for the selected country and year.",
+                align: "middle",
+                wrap: 800 // Adjust the wrapping to fit within the SVG width
             },
-            x: x(barData[0].label) + x.bandwidth() / 2,
-            y: y(barData[0].value) - 10,
-            dy: -10,
-            dx: 0,
-            color: ["#000"]
-        },
-        {
-            note: {
-                label: `Infant Deaths: ${barData[1].value}`,
-                title: 'Infant Deaths'
-            },
-            x: x(barData[1].label) + x.bandwidth() / 2,
-            y: y(barData[1].value) - 10,
-            dy: -10,
-            dx: 0,
-            color: ["#000"]
+            x: width / 2,
+            y: 15,
+            dy: 0,
+            dx: 0
         }
     ];
 
     const makeAnnotations = d3.annotation()
-        .annotations(annotations)
-        .type(d3.annotationLabel)
-        .accessors({
-            x: d => d.x,
-            y: d => d.y
-        });
+        .annotations(annotations);
+
 
     svg.append("g")
         .attr("class", "annotation-group")
