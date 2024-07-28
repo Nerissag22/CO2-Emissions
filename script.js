@@ -139,7 +139,7 @@ function showScene1() {
         .call(legendAxis);
 }
 
-// Function to show the second scene
+// Scene 2: Trend of Life expectancy
 function showScene2() {
     svg.html(""); // Clear the SVG
 
@@ -200,7 +200,7 @@ function showScene2() {
         .call(makeAnnotations);
 }
 
-// Function to show the third scene
+// Scene 3: Adult Mortality and Infant Deaths
 function showScene3() {
     svg.html(""); // Clear the SVG
 
@@ -257,7 +257,7 @@ function showScene3() {
                 title: "Mortality and Deaths",
                 label: "This bar chart shows the Adult Mortality and Infant Deaths for the selected country and year.",
                 align: "middle",
-                wrap: 800 // Adjust the wrapping to fit within the SVG width
+                wrap: 800
             },
             x: width / 2,
             y: 15,
